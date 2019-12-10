@@ -19,6 +19,10 @@ import java.util.Iterator;
 @Component
 public class UrlAccessDecisionManager implements AccessDecisionManager {
     @Override
+    /**
+     * @param cas UrlFilterInvocationSecurityMetadataSource中的getAttributes方法传来的，表示当前请求需要的角色（可能有多个）。
+     * @param auth 当前登录用户的角色信息
+     */
     public void decide(Authentication auth, Object o, Collection<ConfigAttribute> cas){
         Iterator<ConfigAttribute> iterator = cas.iterator();
         while (iterator.hasNext()) {
@@ -29,9 +33,11 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
                 if (auth instanceof AnonymousAuthenticationToken) {
                     throw new BadCredentialsException("未登录");
                 } else
+                	//跳出decide()方法
+                	//登录了就直接返回，则这个请求将被成功执行。
                     return;
             }
-            //当前用户所具有的权限
+            //当前用户所具有的权限，当前用户是通过表单登录认证的
             Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
             for (GrantedAuthority authority : authorities) {
                 if (authority.getAuthority().equals(needRole)) {

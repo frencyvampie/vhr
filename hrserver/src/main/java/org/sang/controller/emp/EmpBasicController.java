@@ -71,6 +71,7 @@ public class EmpBasicController {
                     employee.setPosName(allPo.getName());
                 }
             }
+            //添加一个员工后，线程发邮件
             executorService.execute(new EmailRunnable(employee,
                     javaMailSender, templateEngine,emailAddress));
             return RespBean.ok("添加成功!");

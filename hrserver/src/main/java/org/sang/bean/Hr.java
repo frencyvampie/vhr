@@ -47,6 +47,9 @@ public class Hr implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+    /**
+     * 获取当前对象hr下的角色
+     */
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

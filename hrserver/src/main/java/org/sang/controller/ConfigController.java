@@ -20,6 +20,7 @@ public class ConfigController {
     @Autowired
     MenuService menuService;
     @RequestMapping("/sysmenu")
+    //返回结果给前端用户认证登录后，在initMenu模块中用到
     public List<Menu> sysmenu() {
         return menuService.getMenusByHrId();
     }

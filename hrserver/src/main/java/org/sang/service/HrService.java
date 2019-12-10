@@ -22,7 +22,10 @@ public class HrService implements UserDetailsService {
 
     @Autowired
     HrMapper hrMapper;
-
+    
+    /**
+     * 这个方法将根据用户名去查找用户，如果用户不存在，则抛出UsernameNotFoundException异常，否则直接将查到的Hr返回
+     */
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Hr hr = hrMapper.loadUserByUsername(s);
@@ -33,10 +36,11 @@ public class HrService implements UserDetailsService {
     }
 
     public int hrReg(String username, String password) {
-        //如果用户名存在，返回错误
+        //如果用户名存在，返回错误，并没有写入数据库
         if (hrMapper.loadUserByUsername(username) != null) {
             return -1;
         }
+        //密码加密
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encode = encoder.encode(password);
         return hrMapper.hrReg(username, encode);
